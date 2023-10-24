@@ -2,7 +2,7 @@
 
 # How to install
 
-You can install it by typing : `composer require adexos/m2-jane-sdk-bridge:^1.0`
+You can install it by typing : `composer require adexos/m2-jane-sdk-bridge`
 
 # How to use
 
@@ -71,9 +71,8 @@ class MyClient
     {
         //This class allows you to have an attachment point to the HTTP client 
         //and to have hint types because of the generic SDKs 
-        //you can do whatever you want here such as doe somes checks or passing Bearer token :
-        // $this->tokenStrategy->getToken();
-        // return $this->client->getClient(['Bearer' => $token]);
+        //you can do whatever you want here such as do some checks or passing scope for the bearer token :
+        // return $this->client->getClient(['scope' => 'my_custom_scope'']);
         
         return $this->client->getClient();
     }
