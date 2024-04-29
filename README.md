@@ -176,8 +176,15 @@ You can use following auth methods :
     </virtualType>
 ```
 
-> /!\ Be aware that your API key **MUST** be [encrypted](https://www.magevision.com/blog/post/decrypt-an-encrypted-config-value-magento-2).
-> This behavior won't be modified for security reasons.
+> /!\ If you want encrypt your API Key or password, you can use the Magento 2 backend_model `Magento\Config\Model\Config\Backend\Encrypted` in your `system.xml` file like this example:
+```xml
+<field id="api_key" translate="label" type="obscure" sortOrder="40" showInDefault="1"
+       showInWebsite="1" showInStore="1" canRestore="1">
+    <label>Api key</label>
+    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+</field>
+```
+
 
 ## Disclaimer
 

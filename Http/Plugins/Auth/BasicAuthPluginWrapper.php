@@ -6,19 +6,14 @@ namespace Adexos\JaneSDKBridge\Http\Plugins\Auth;
 
 use Adexos\JaneSDKBridge\Exceptions\InvalidBasicAuthUsernameException;
 use Adexos\JaneSDKBridge\Exceptions\InvalidBasicAuthPasswordException;
-use Http\Client\Common\Plugin;
 use Jane\Component\OpenApiRuntime\Client\AuthenticationPlugin;
-use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Encryption\EncryptorInterface;
 
 class BasicAuthPluginWrapper implements AuthHttpPluginInterface
 {
     private string $basicAuthPluginClass;
 
     private ScopeConfigInterface $scopeConfig;
-
-    private EncryptorInterface $encryptor;
 
     private string $configPathUsername;
 
@@ -27,13 +22,11 @@ class BasicAuthPluginWrapper implements AuthHttpPluginInterface
     public function __construct(
         string $basicAuthPluginClass,
         ScopeConfigInterface $scopeConfig,
-        EncryptorInterface $encryptor,
         string $configPathUsername,
         string $configPathPassword
     ) {
         $this->basicAuthPluginClass = $basicAuthPluginClass;
         $this->scopeConfig = $scopeConfig;
-        $this->encryptor = $encryptor;
         $this->configPathUsername = $configPathUsername;
         $this->configPathPassword = $configPathPassword;
     }
@@ -50,13 +43,10 @@ class BasicAuthPluginWrapper implements AuthHttpPluginInterface
         if (!($username = $this->scopeConfig->getValue($this->configPathUsername))) {
             throw new InvalidBasicAuthUsernameException();
         }
-        if (!($passwordEncrypt = $this->scopeConfig->getValue($this->configPathPassword))) {
+
+        if (!($password = $this->scopeConfig->getValue($this->configPathPassword))) {
             throw new InvalidBasicAuthPasswordException();
         }
-
-        $password = $this->encryptor->decrypt(
-            $passwordEncrypt
-        );
 
         return new $this->basicAuthPluginClass($username, $password);
     }
