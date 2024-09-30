@@ -10,7 +10,7 @@ use Adexos\JaneSDKBridge\Http\Plugins\Auth\BasicAuthPluginWrapper;
 use Adexos\JaneSDKBridge\Http\Plugins\HttpPluginInterface;
 use Http\Client\Common\Plugin;
 use Http\Client\Common\PluginClient;
-use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
 
 class Client
@@ -64,7 +64,7 @@ class Client
             $plugins[] = $authenticationRegistry;
         }
 
-        $httpClient = new PluginClient(HttpClientDiscovery::find(), $plugins);
+        $httpClient = new PluginClient(Psr18ClientDiscovery::find(), $plugins);
 
         $this->clientRegistry[$cacheKey] = $this->clientName::create($httpClient);
 
